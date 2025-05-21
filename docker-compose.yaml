@@ -1,0 +1,26 @@
+services:
+  crates-io:
+    build:
+      context: .
+      args:
+        PKG_NAME: crates.io
+    environment:
+      - RABBITMQ_URL=amqp://host.docker.internal:5672
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://host.docker.internal:4317
+      - MINIO_ENDPOINT=http://host.docker.internal:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+
+  crates-io-parser:
+    build:
+      context: .
+      args:
+        PKG_NAME: crates.io-parser
+    depends_on:
+      - crates-io
+    environment:
+      - RABBITMQ_URL=amqp://host.docker.internal:5672
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://host.docker.internal:4317
+      - MINIO_ENDPOINT=http://host.docker.internal:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin

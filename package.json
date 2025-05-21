@@ -1,0 +1,32 @@
+{
+  "name": "scrappers",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:check": "turbo run build:check",
+    "lint": "turbo lint",
+    "lint:check": "turbo lint:check",
+    "format": "turbo format",
+    "format:check": "turbo format:check",
+    "start": "turbo run start",
+    "start:dev": "turbo run start:dev",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
+    "test:watch": "turbo run test:watch"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^2.29.4",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "turbo": "^2.5.3",
+    "typescript": "5.8.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "engines": {
+    "node": ">=18"
+  }
+}

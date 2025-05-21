@@ -1,0 +1,19 @@
+{
+  "name": "@scrappers/storage",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "undici": "^7.9.0"
+  },
+  "publishConfig": {
+    "registry": "http://localhost:4873"
+  }
+}
