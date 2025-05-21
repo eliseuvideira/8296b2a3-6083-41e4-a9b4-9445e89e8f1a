@@ -121,4 +121,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - run: pnpm install --frozen-lockfile --store .pnpm-store
-      - run: pnpm build:check --filter=...[HEAD^] --parallel
+      - run: pnpm build:check --filter=...[HEAD^]
