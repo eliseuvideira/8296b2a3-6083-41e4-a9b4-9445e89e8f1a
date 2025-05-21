@@ -6,7 +6,7 @@
       "cache": false
     },
     "build:check": {
-      "dependsOn": ["^build:check"]
+      "dependsOn": ["^build"]
     },
     "lint": {
       "dependsOn": ["^lint"]
