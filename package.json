@@ -11,6 +11,8 @@
     "start": "turbo run start",
     "start:dev": "turbo run start:dev",
     "test": "turbo run test",
+    "test:ci": "turbo run test:ci --filter=...[HEAD^]",
+    "test:ci:pr": "turbo run test:ci --filter=...[origin/main]",
     "test:coverage": "turbo run test:coverage",
     "test:watch": "turbo run test:watch"
   },

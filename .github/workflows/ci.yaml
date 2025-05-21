@@ -90,7 +90,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - run: pnpm install --frozen-lockfile --store .pnpm-store
-      - run: pnpm test
+      - run: |
+          echo "event_name: ${{ github.event_name }}"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            pnpm test:ci:pr
+          else
+            pnpm test:ci
+          fi
 
   build:
     needs: setup
