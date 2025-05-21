@@ -1,7 +1,8 @@
-name: CI
+name: Pull Request
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize, reopened]
     branches:
       - main
 
@@ -50,7 +51,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - run: pnpm install --frozen-lockfile --store .pnpm-store
-      - run: pnpm format:check --filter=...[HEAD^] --parallel
+      - run: pnpm format:check --filter=...[origin/main..HEAD] --parallel
 
   lint:
     name: Lint
@@ -76,7 +77,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - run: pnpm install --frozen-lockfile --store .pnpm-store
-      - run: pnpm lint:check --filter=...[HEAD^] --parallel
+      - run: pnpm lint:check --filter=...[origin/main..HEAD] --parallel
 
   test:
     name: Test
@@ -100,7 +101,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - run: pnpm install --frozen-lockfile --store .pnpm-store
-      - run: pnpm test:ci --filter=...[HEAD^] --parallel
+      - run: pnpm test:ci --filter=...[origin/main..HEAD] --parallel
 
   build:
     needs: setup
@@ -123,4 +124,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - run: pnpm install --frozen-lockfile --store .pnpm-store
-      - run: pnpm build:check --filter=...[HEAD^] --parallel
+      - run: pnpm build:check --filter=...[origin/main..HEAD] --parallel
