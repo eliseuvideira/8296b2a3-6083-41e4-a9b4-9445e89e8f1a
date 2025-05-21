@@ -35,6 +35,16 @@
       "cache": false,
       "persistent": false
     },
+    "test:ci": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": false
+    },
+    "test:ci:pr": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": false
+    },
     "test:coverage": {
       "dependsOn": ["^build"],
       "cache": false,
