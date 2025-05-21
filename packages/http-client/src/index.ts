@@ -1,5 +1,5 @@
 export { HttpClient } from "./functions/http-client";
 
-const foo = 1;
+const foo = 2;
 
 export { foo };
