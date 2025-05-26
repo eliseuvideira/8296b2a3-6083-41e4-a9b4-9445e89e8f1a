@@ -7,7 +7,7 @@ import { trace, context, propagation } from "@opentelemetry/api";
 import { z } from "zod";
 import dotenv from "dotenv";
 
-const QUEUE = "crates.io-parser";
+const QUEUE = "integration.crates.io.parser";
 const tracer = trace.getTracer("crates.io-parser");
 
 const main = async () => {
@@ -58,7 +58,7 @@ const main = async () => {
     const extractedContext = propagation.extract(context.active(), carrier);
 
     await context.with(extractedContext, async () => {
-      await tracer.startActiveSpan("consume", async (span) => {
+      await tracer.startActiveSpan("start-parsing", async (span) => {
         await consume(message, channel, storage, outputStorage);
         span.end();
       });
@@ -67,7 +67,7 @@ const main = async () => {
     const forwardCarrier: Record<string, string> = {};
     propagation.inject(extractedContext, forwardCarrier);
 
-    channel.publish("default_exchange", "output_parser", message.content, {
+    channel.publish("default_exchange", "consumer", message.content, {
       headers: {
         traceparent: forwardCarrier.traceparent,
         tracestate: forwardCarrier.tracestate,

@@ -5,11 +5,14 @@ import { StorageMinio } from "@scrappers/storage-minio";
 import type { Storage } from "@scrappers/storage";
 import { logger } from "./config/logger";
 import { trace, context, propagation } from "@opentelemetry/api";
+import dotenv from "dotenv";
 
-const QUEUE = "crates.io";
+const QUEUE = "integration.crates.io";
 const tracer = trace.getTracer("crates.io");
 
 const main = async () => {
+  dotenv.config();
+
   initTelemetry();
 
   logger.info("Starting crates.io");
@@ -48,7 +51,7 @@ const main = async () => {
     const extractedContext = propagation.extract(context.active(), carrier);
 
     await context.with(extractedContext, async () => {
-      await tracer.startActiveSpan("consume", async (span) => {
+      await tracer.startActiveSpan("start-scraping", async (span) => {
         await consume(message, channel, client, storage);
         span.end();
       });
@@ -57,13 +60,18 @@ const main = async () => {
     const forwardCarrier: Record<string, string> = {};
     propagation.inject(extractedContext, forwardCarrier);
 
-    channel.publish("default_exchange", "crates.io-parser", message.content, {
-      headers: {
-        traceparent: forwardCarrier.traceparent,
-        tracestate: forwardCarrier.tracestate,
+    channel.publish(
+      "default_exchange",
+      "integration.crates.io.parser",
+      message.content,
+      {
+        headers: {
+          traceparent: forwardCarrier.traceparent,
+          tracestate: forwardCarrier.tracestate,
+        },
+        contentType: "application/json",
       },
-      contentType: "application/json",
-    });
+    );
   });
 };
 
