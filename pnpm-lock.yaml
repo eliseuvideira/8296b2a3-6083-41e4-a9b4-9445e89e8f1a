@@ -71,12 +71,18 @@ importers:
       '@scrappers/storage-minio':
         specifier: workspace:^
         version: link:../../packages/storage-minio
+      '@scrappers/telemetry':
+        specifier: workspace:^
+        version: link:../../packages/telemetry
       '@types/node':
         specifier: ^22.15.18
         version: 22.15.18
       amqplib:
         specifier: ^0.10.8
         version: 0.10.8
+      config:
+        specifier: ^4.0.0
+        version: 4.0.0
       dotenv:
         specifier: ^16.5.0
         version: 16.5.0
@@ -155,20 +161,45 @@ importers:
         specifier: ^0.10.7
         version: 0.10.7
 
-  apps/jsr.io:
-    dependencies:
-      '@scrappers/http-client':
-        specifier: workspace:^
-        version: link:../../packages/http-client
-      '@types/node':
-        specifier: ^22.15.18
-        version: 22.15.18
-
   packages/http-client:
     dependencies:
       undici:
         specifier: ^7.9.0
         version: 7.9.0
+
+  packages/pipeline:
+    dependencies:
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
+      '@opentelemetry/auto-instrumentations-node':
+        specifier: ^0.59.0
+        version: 0.59.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))
+      '@opentelemetry/exporter-trace-otlp-grpc':
+        specifier: ^0.201.1
+        version: 0.201.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-http':
+        specifier: ^0.201.0
+        version: 0.201.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-proto':
+        specifier: ^0.201.0
+        version: 0.201.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-pino':
+        specifier: ^0.48.0
+        version: 0.48.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-node':
+        specifier: ^0.201.0
+        version: 0.201.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base':
+        specifier: ^2.0.1
+        version: 2.0.1(@opentelemetry/api@1.9.0)
+      amqplib:
+        specifier: ^0.10.8
+        version: 0.10.8
+    devDependencies:
+      '@types/amqplib':
+        specifier: ^0.10.7
+        version: 0.10.7
 
   packages/storage:
     dependencies:
@@ -187,6 +218,36 @@ importers:
       '@scrappers/storage':
         specifier: workspace:^
         version: link:../storage
+
+  packages/telemetry:
+    dependencies:
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.0
+      '@opentelemetry/auto-instrumentations-node':
+        specifier: ^0.59.0
+        version: 0.59.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))
+      '@opentelemetry/exporter-trace-otlp-grpc':
+        specifier: ^0.201.1
+        version: 0.201.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-http':
+        specifier: ^0.201.0
+        version: 0.201.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/exporter-trace-otlp-proto':
+        specifier: ^0.201.0
+        version: 0.201.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-pino':
+        specifier: ^0.48.0
+        version: 0.48.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-node':
+        specifier: ^0.201.0
+        version: 0.201.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base':
+        specifier: ^2.0.1
+        version: 2.0.1(@opentelemetry/api@1.9.0)
+      '@types/node':
+        specifier: ^22.15.18
+        version: 22.15.18
 
 packages:
 
@@ -1868,6 +1929,10 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+
+  config@4.0.0:
+    resolution: {integrity: sha512-zOzfDfcpaBUMRvTH+pbj111Gfb+1BMvCy9EcE5ckuugfAcks3FIQMyt8TRA30dhuGnZNBxfbPBUKtuM03ih/nA==}
+    engines: {node: '>= 20.0.0'}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -5694,6 +5759,10 @@ snapshots:
   colorette@2.0.20: {}
 
   concat-map@0.0.1: {}
+
+  config@4.0.0:
+    dependencies:
+      json5: 2.2.3
 
   convert-source-map@2.0.0: {}
 

@@ -1,0 +1,6 @@
+[rabbitmq]
+url = "amqp://127.0.0.1:5672"
+[minio]
+endpoint = "http://127.0.0.1:9000"
+[otel]
+endpoint = "http://127.0.0.1:4317"

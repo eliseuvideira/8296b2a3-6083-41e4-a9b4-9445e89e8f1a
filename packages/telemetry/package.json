@@ -1,10 +1,9 @@
 {
-  "name": "@apps/crates.io",
-  "version": "1.2.1",
-  "private": true,
+  "name": "@scrappers/telemetry",
+  "version": "0.0.0",
   "description": "",
-  "main": "./dist/main.js",
-  "types": "./dist/main.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "build:check": "tsc --noEmit",
@@ -31,19 +30,9 @@
     "@opentelemetry/instrumentation-pino": "^0.48.0",
     "@opentelemetry/sdk-node": "^0.201.0",
     "@opentelemetry/sdk-trace-base": "^2.0.1",
-    "@scrappers/http-client": "workspace:^",
-    "@scrappers/storage": "workspace:^",
-    "@scrappers/storage-minio": "workspace:^",
-    "@scrappers/telemetry": "workspace:^",
-    "@types/node": "^22.15.18",
-    "amqplib": "^0.10.8",
-    "config": "^4.0.0",
-    "dotenv": "^16.5.0",
-    "pino": "^8.19.0",
-    "pino-opentelemetry-transport": "^1.0.1",
-    "pino-pretty": "^10.3.1"
+    "@types/node": "^22.15.18"
   },
-  "devDependencies": {
-    "@types/amqplib": "^0.10.7"
+  "publishConfig": {
+    "registry": "http://localhost:4873"
   }
 }

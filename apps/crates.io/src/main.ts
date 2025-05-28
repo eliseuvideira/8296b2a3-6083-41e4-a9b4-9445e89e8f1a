@@ -1,10 +1,10 @@
 import { HttpClient } from "@scrappers/http-client";
 import amqplib from "amqplib";
-import { initTelemetry } from "./telemetry";
+import { Telemetry } from "@scrappers/telemetry";
 import { StorageMinio } from "@scrappers/storage-minio";
 import type { Storage } from "@scrappers/storage";
 import { logger } from "./config/logger";
-import { trace, context, propagation } from "@opentelemetry/api";
+import { trace } from "@opentelemetry/api";
 import dotenv from "dotenv";
 
 const QUEUE = "integration.crates.io";
@@ -13,12 +13,18 @@ const tracer = trace.getTracer("crates.io");
 const main = async () => {
   dotenv.config();
 
-  initTelemetry();
+  const telemetry = Telemetry("crates.io");
+
+  telemetry.init({
+    otlpEndpoint:
+      process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? "http://localhost:4317",
+    serviceName: "crates.io",
+  });
 
   logger.info("Starting crates.io");
 
   const storage = StorageMinio({
-    bucket: "crates.io",
+    bucket: "integrations",
     endpoint: process.env.MINIO_ENDPOINT ?? "http://127.0.0.1:9000",
     credentials: {
       accessKeyId: process.env.MINIO_ACCESS_KEY ?? "minioadmin",
@@ -41,24 +47,20 @@ const main = async () => {
   await channel.consume(QUEUE, async (message) => {
     if (!message) return;
 
-    // Extract trace context from message headers
     const headers = message.properties.headers || {};
-    const carrier = {
+
+    const context = telemetry.context({
       traceparent: headers.traceparent,
       tracestate: headers.tracestate,
-    };
+    });
 
-    const extractedContext = propagation.extract(context.active(), carrier);
-
-    await context.with(extractedContext, async () => {
-      await tracer.startActiveSpan("start-scraping", async (span) => {
+    await telemetry.propagate(context, async () => {
+      await telemetry.span("start-scraping", async () => {
         await consume(message, channel, client, storage);
-        span.end();
       });
     });
 
-    const forwardCarrier: Record<string, string> = {};
-    propagation.inject(extractedContext, forwardCarrier);
+    const forwardCarrier = telemetry.carrier(context);
 
     channel.publish(
       "default_exchange",

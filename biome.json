@@ -24,6 +24,16 @@
         "noExplicitAny": "error",
         "noImplicitAnyLet": "error",
         "noArrayIndexKey": "error"
+      },
+      "nursery": {
+        "useExplicitType": "error"
+      },
+      "complexity": {
+        "noBannedTypes": "error",
+        "noForEach": "error",
+      },
+      "correctness": {
+        "useIsNan"
       }
     }
   },

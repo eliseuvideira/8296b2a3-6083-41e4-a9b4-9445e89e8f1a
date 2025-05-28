@@ -18,7 +18,7 @@ const main = async () => {
   logger.info("Starting crates.io-parser");
 
   const storage = StorageMinio({
-    bucket: "crates.io",
+    bucket: "integrations",
     endpoint: process.env.MINIO_ENDPOINT ?? "http://127.0.0.1:9000",
     credentials: {
       accessKeyId: process.env.MINIO_ACCESS_KEY ?? "minioadmin",
@@ -26,15 +26,6 @@ const main = async () => {
     },
     region: "us-east-1",
     forcePathStyle: true,
-  });
-
-  const outputStorage = StorageMinio({
-    bucket: "outputs",
-    endpoint: process.env.MINIO_ENDPOINT ?? "http://127.0.0.1:9000",
-    credentials: {
-      accessKeyId: process.env.MINIO_ACCESS_KEY ?? "minioadmin",
-      secretAccessKey: process.env.MINIO_SECRET_KEY ?? "minioadmin",
-    },
   });
 
   const connection = await amqplib.connect(
@@ -59,7 +50,7 @@ const main = async () => {
 
     await context.with(extractedContext, async () => {
       await tracer.startActiveSpan("start-parsing", async (span) => {
-        await consume(message, channel, storage, outputStorage);
+        await consume(message, channel, storage);
         span.end();
       });
     });
@@ -95,7 +86,6 @@ const consume = async (
   message: amqplib.Message,
   channel: amqplib.Channel,
   storage: Storage,
-  outputStorage: Storage,
 ) => {
   try {
     const payload = JSON.parse(Buffer.from(message.content).toString());
@@ -111,7 +101,7 @@ const consume = async (
     };
 
     const span = tracer.startSpan("write-to-storage");
-    await outputStorage.put(`outputs/${payload.package_name}.json`, output);
+    await storage.put(`outputs/${payload.package_name}.json`, output);
     span.end();
 
     channel.ack(message);
