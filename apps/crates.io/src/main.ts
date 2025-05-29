@@ -6,43 +6,44 @@ import type { Storage } from "@scrappers/storage";
 import { logger } from "./config/logger";
 import { trace } from "@opentelemetry/api";
 import dotenv from "dotenv";
+import { Config } from "./config/config";
+import { env } from "./types/env";
 
 const QUEUE = "integration.crates.io";
 const tracer = trace.getTracer("crates.io");
 
-const main = async () => {
+const main = async (): Promise<void> => {
   dotenv.config();
+
+  const config = await Config(env());
 
   const telemetry = Telemetry("crates.io");
 
   telemetry.init({
-    otlpEndpoint:
-      process.env.OTEL_EXPORTER_OTLP_ENDPOINT ?? "http://localhost:4317",
-    serviceName: "crates.io",
+    otlpEndpoint: config.otel.endpoint,
+    serviceName: config.name,
   });
-
-  logger.info("Starting crates.io");
 
   const storage = StorageMinio({
     bucket: "integrations",
-    endpoint: process.env.MINIO_ENDPOINT ?? "http://127.0.0.1:9000",
+    endpoint: config.minio.url,
     credentials: {
-      accessKeyId: process.env.MINIO_ACCESS_KEY ?? "minioadmin",
-      secretAccessKey: process.env.MINIO_SECRET_KEY ?? "minioadmin",
+      accessKeyId: config.minio.username,
+      secretAccessKey: config.minio.password,
     },
-    region: "us-east-1",
-    forcePathStyle: true,
+    region: config.minio.region,
+    forcePathStyle: config.minio.force_path_style,
   });
 
-  const connection = await amqplib.connect(
-    process.env.RABBITMQ_URL ?? "amqp://127.0.0.1:5672",
-  );
+  const connection = await amqplib.connect(config.rabbitmq.url);
   const channel = await connection.createChannel();
-  await channel.assertQueue(QUEUE, { durable: true });
+  await channel.assertQueue(QUEUE, {
+    durable: true,
+  });
 
   logger.info("Connected to RabbitMQ");
 
-  const client = HttpClient("https://crates.io");
+  const client = new HttpClient("https://crates.io");
 
   await channel.consume(QUEUE, async (message) => {
     if (!message) return;
@@ -87,7 +88,7 @@ const consume = async (
   channel: amqplib.Channel,
   client: HttpClient,
   storage: Storage,
-) => {
+): Promise<void> => {
   const payload = JSON.parse(message.content.toString());
 
   try {

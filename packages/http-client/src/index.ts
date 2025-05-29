@@ -1,5 +1,1 @@
-export { HttpClient } from "./functions/http-client";
-
-const foo = 4;
-
-export { foo };
+export { HttpClient } from "./utils/http-client";

@@ -1,1 +1,1 @@
-export { StorageMinio } from "./functions/storage-minio";
+export { StorageMinio } from "./utils/storage-minio";

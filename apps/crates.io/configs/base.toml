@@ -1,6 +1,12 @@
+name = "crates.io"
 [rabbitmq]
 url = "amqp://127.0.0.1:5672"
 [minio]
-endpoint = "http://127.0.0.1:9000"
+url = "http://127.0.0.1:9000"
+username = "minioadmin"
+password = "minioadmin"
+bucket_name = "integrations"
+region = "us-east-1"
+force_path_style = true
 [otel]
 endpoint = "http://127.0.0.1:4317"

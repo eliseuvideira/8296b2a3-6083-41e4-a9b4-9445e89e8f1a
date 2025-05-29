@@ -8,7 +8,7 @@ import type { Storage } from "@scrappers/storage";
 export interface StorageMinioConfig {
   bucket: string;
   endpoint: string;
-  region?: string;
+  region: string;
   credentials: {
     accessKeyId: string;
     secretAccessKey: string;
@@ -19,7 +19,7 @@ export interface StorageMinioConfig {
 export const StorageMinio = (config: StorageMinioConfig): Storage => {
   const client = new S3Client({
     endpoint: config.endpoint,
-    region: config.region || "us-east-1",
+    region: config.region,
     credentials: {
       accessKeyId: config.credentials.accessKeyId,
       secretAccessKey: config.credentials.secretAccessKey,

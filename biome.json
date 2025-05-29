@@ -27,13 +27,6 @@
       },
       "nursery": {
         "useExplicitType": "error"
-      },
-      "complexity": {
-        "noBannedTypes": "error",
-        "noForEach": "error",
-      },
-      "correctness": {
-        "useIsNan"
       }
     }
   },
