@@ -3,7 +3,7 @@ import {
   GetObjectCommand,
   PutObjectCommand,
 } from "@aws-sdk/client-s3";
-import type { Storage } from "@scrappers/storage";
+import type { Storage } from "@packages/storage";
 
 export interface StorageMinioConfig {
   bucket: string;

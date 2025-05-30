@@ -1,4 +1,4 @@
-# @scrappers/storage-minio
+# @packages/storage-minio
 
 ## 0.1.0
 
@@ -9,4 +9,4 @@
 ### Patch Changes
 
 - Updated dependencies
-  - @scrappers/storage@0.1.0
+  - @packages/storage@0.1.0

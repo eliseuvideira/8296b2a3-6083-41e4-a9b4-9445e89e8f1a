@@ -1,7 +1,7 @@
-name = "crates.io"
+name = "crates.io-parser"
 [rabbitmq]
 url = "amqp://127.0.0.1:5672/%2F"
-queue_name = "integration.crates.io"
+queue_name = "integration.crates.io.parser"
 [minio]
 url = "http://127.0.0.1:9000"
 username = "minioadmin"

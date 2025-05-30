@@ -1,5 +1,5 @@
 {
-  "name": "@scrappers/storage",
+  "name": "@packages/storage",
   "version": "0.1.0",
   "description": "",
   "main": "./dist/index.js",

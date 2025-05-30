@@ -38,6 +38,9 @@ importers:
 
   apps/crates.io:
     dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.812.0
+        version: 3.812.0
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -62,16 +65,22 @@ importers:
       '@opentelemetry/sdk-trace-base':
         specifier: ^2.0.1
         version: 2.0.1(@opentelemetry/api@1.9.0)
-      '@scrappers/http-client':
+      '@packages/config':
+        specifier: workspace:^
+        version: link:../../packages/config
+      '@packages/env':
+        specifier: workspace:^
+        version: link:../../packages/env
+      '@packages/http-client':
         specifier: workspace:^
         version: link:../../packages/http-client
-      '@scrappers/storage':
+      '@packages/storage':
         specifier: workspace:^
         version: link:../../packages/storage
-      '@scrappers/storage-minio':
+      '@packages/storage-minio':
         specifier: workspace:^
         version: link:../../packages/storage-minio
-      '@scrappers/telemetry':
+      '@packages/telemetry':
         specifier: workspace:^
         version: link:../../packages/telemetry
       '@types/node':
@@ -108,6 +117,9 @@ importers:
 
   apps/crates.io-parser:
     dependencies:
+      '@aws-sdk/client-s3':
+        specifier: ^3.812.0
+        version: 3.812.0
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -132,15 +144,24 @@ importers:
       '@opentelemetry/sdk-trace-base':
         specifier: ^2.0.1
         version: 2.0.1(@opentelemetry/api@1.9.0)
-      '@scrappers/http-client':
+      '@packages/config':
+        specifier: workspace:^
+        version: link:../../packages/config
+      '@packages/env':
+        specifier: workspace:^
+        version: link:../../packages/env
+      '@packages/http-client':
         specifier: workspace:^
         version: link:../../packages/http-client
-      '@scrappers/storage':
+      '@packages/storage':
         specifier: workspace:^
         version: link:../../packages/storage
-      '@scrappers/storage-minio':
+      '@packages/storage-minio':
         specifier: workspace:^
         version: link:../../packages/storage-minio
+      '@packages/telemetry':
+        specifier: workspace:^
+        version: link:../../packages/telemetry
       '@types/node':
         specifier: ^22.15.18
         version: 22.15.18
@@ -167,45 +188,50 @@ importers:
         specifier: ^0.10.7
         version: 0.10.7
 
+  packages/config:
+    dependencies:
+      '@packages/env':
+        specifier: workspace:^
+        version: link:../env
+      '@types/node':
+        specifier: ^22.15.18
+        version: 22.15.18
+      toml:
+        specifier: ^3.0.0
+        version: 3.0.0
+      zod:
+        specifier: ^3.25.7
+        version: 3.25.7
+
+  packages/core:
+    dependencies:
+      '@packages/config':
+        specifier: workspace:^
+        version: link:../config
+      '@packages/env':
+        specifier: workspace:^
+        version: link:../env
+      '@packages/telemetry':
+        specifier: workspace:^
+        version: link:../telemetry
+      '@types/node':
+        specifier: ^22.15.18
+        version: 22.15.18
+
+  packages/env:
+    dependencies:
+      '@types/node':
+        specifier: ^22.15.18
+        version: 22.15.18
+      zod:
+        specifier: ^3.25.7
+        version: 3.25.7
+
   packages/http-client:
     dependencies:
       undici:
         specifier: ^7.9.0
         version: 7.9.0
-
-  packages/pipeline:
-    dependencies:
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.0
-      '@opentelemetry/auto-instrumentations-node':
-        specifier: ^0.59.0
-        version: 0.59.0(@opentelemetry/api@1.9.0)(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))
-      '@opentelemetry/exporter-trace-otlp-grpc':
-        specifier: ^0.201.1
-        version: 0.201.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/exporter-trace-otlp-http':
-        specifier: ^0.201.0
-        version: 0.201.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/exporter-trace-otlp-proto':
-        specifier: ^0.201.0
-        version: 0.201.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation-pino':
-        specifier: ^0.48.0
-        version: 0.48.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-node':
-        specifier: ^0.201.0
-        version: 0.201.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-base':
-        specifier: ^2.0.1
-        version: 2.0.1(@opentelemetry/api@1.9.0)
-      amqplib:
-        specifier: ^0.10.8
-        version: 0.10.8
-    devDependencies:
-      '@types/amqplib':
-        specifier: ^0.10.7
-        version: 0.10.7
 
   packages/storage:
     dependencies:
@@ -221,7 +247,7 @@ importers:
       '@aws-sdk/lib-storage':
         specifier: ^3.812.0
         version: 3.812.0(@aws-sdk/client-s3@3.812.0)
-      '@scrappers/storage':
+      '@packages/storage':
         specifier: workspace:^
         version: link:../storage
 

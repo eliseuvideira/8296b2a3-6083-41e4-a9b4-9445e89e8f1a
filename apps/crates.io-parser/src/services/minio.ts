@@ -1,5 +1,6 @@
 import {
   CreateBucketCommand,
+  GetObjectCommand,
   HeadBucketCommand,
   ListBucketsCommand,
   NoSuchBucket,
@@ -77,10 +78,27 @@ const put = async (
   );
 };
 
+const get = async (
+  client: S3Client,
+  bucket: string,
+  key: string,
+): Promise<string> => {
+  const response = await client.send(
+    new GetObjectCommand({ Bucket: bucket, Key: key }),
+  );
+
+  if (!response.Body) {
+    throw new Error("No body in response");
+  }
+
+  return response.Body.transformToString();
+};
+
 export const Minio = {
   createClient,
   listBuckets,
   createBucket,
   ensureBucket,
+  get,
   put,
 };

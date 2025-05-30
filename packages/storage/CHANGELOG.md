@@ -1,4 +1,4 @@
-# @scrappers/storage
+# @packages/storage
 
 ## 0.1.0
 

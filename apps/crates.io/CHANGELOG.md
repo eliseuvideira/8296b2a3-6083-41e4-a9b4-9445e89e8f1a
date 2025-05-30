@@ -1,13 +1,13 @@
-# @scrappers/crates.io
+# @packages/crates.io
 
 ## 1.2.1
 
 ### Patch Changes
 
 - Updated dependencies
-  - @scrappers/http-client@1.3.0
-  - @scrappers/storage@0.1.0
-  - @scrappers/storage-minio@0.1.0
+  - @packages/http-client@1.3.0
+  - @packages/storage@0.1.0
+  - @packages/storage-minio@0.1.0
 
 ## 1.2.0
 
@@ -18,7 +18,7 @@
 ### Patch Changes
 
 - Updated dependencies
-  - @scrappers/http-client@1.2.0
+  - @packages/http-client@1.2.0
 
 ## 1.1.0
 
@@ -29,4 +29,4 @@
 ### Patch Changes
 
 - Updated dependencies [c516ab9]
-  - @scrappers/http-client@1.1.0
+  - @packages/http-client@1.1.0

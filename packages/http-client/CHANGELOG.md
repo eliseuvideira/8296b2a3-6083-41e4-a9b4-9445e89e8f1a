@@ -1,4 +1,4 @@
-# @scrappers/http-client
+# @packages/http-client
 
 ## 1.3.0
 

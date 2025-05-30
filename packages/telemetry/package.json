@@ -1,5 +1,5 @@
 {
-  "name": "@scrappers/telemetry",
+  "name": "@packages/telemetry",
   "version": "0.0.0",
   "description": "",
   "main": "./dist/index.js",
