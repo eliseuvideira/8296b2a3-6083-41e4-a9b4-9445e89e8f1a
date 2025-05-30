@@ -101,6 +101,7 @@ jobs:
       - run: pnpm test:ci --filter=...[HEAD^] --parallel
 
   build:
+    name: Build
     needs: setup
     runs-on: ubuntu-latest
     steps:
@@ -122,3 +123,27 @@ jobs:
             ${{ runner.os }}-pnpm-
       - run: pnpm install --frozen-lockfile --store .pnpm-store
       - run: pnpm build:check --filter=...[HEAD^]
+
+  coverage:
+    name: Coverage
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+      - uses: actions/cache@v3
+        with:
+          path: |
+            .pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+      - run: pnpm install --frozen-lockfile --store .pnpm-store
+      - run: pnpm jest --passWithNoTests --ci --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
