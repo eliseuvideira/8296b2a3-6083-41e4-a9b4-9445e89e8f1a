@@ -35,5 +35,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # Misc
-.DS_Store
 *.pem
+.DS_Store
