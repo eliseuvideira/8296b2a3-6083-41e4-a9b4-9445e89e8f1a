@@ -2,8 +2,10 @@ services:
   crates-io:
     build:
       context: .
+      dockerfile: apps/crates.io/Dockerfile
       args:
         PKG_NAME: crates.io
+    network_mode: host
     environment:
       - RABBITMQ_URL=amqp://host.docker.internal:5672
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://host.docker.internal:4317
@@ -14,10 +16,12 @@ services:
   crates-io-parser:
     build:
       context: .
+      dockerfile: apps/crates.io-parser/Dockerfile
       args:
         PKG_NAME: crates.io-parser
     depends_on:
       - crates-io
+    network_mode: host
     environment:
       - RABBITMQ_URL=amqp://host.docker.internal:5672
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://host.docker.internal:4317
